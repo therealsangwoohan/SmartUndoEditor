@@ -35,18 +35,23 @@ public class Buffer {
     }
 
     public void undo() {
-        int index = operations.size() - 1;
-        Operation inverse = operations.get(index).inverse();
-        ArrayList<Operation> sublist = new ArrayList<Operation>(operations.subList(index + 1, operations.size()));
-        Operation transformed = sublist.stream().reduce(inverse, (memo, opposed) -> memo.transform(opposed));
-        applyOperation(transformed);
+        undo(operations.size() - 1);
     }
+
+//    public void undo(int index) {
+//        Operation inverse = operations.get(index).inverse();
+//        ArrayList<Operation> sublist = new ArrayList<Operation>(operations.subList(index + 1, operations.size()));
+//        Operation transformed = sublist.stream().reduce(inverse, (memo, opposed) -> memo.transform(opposed));
+//        applyOperation(transformed);
+//    }
 
     public void undo(int index) {
         Operation inverse = operations.get(index).inverse();
         ArrayList<Operation> sublist = new ArrayList<Operation>(operations.subList(index + 1, operations.size()));
-        Operation transformed = sublist.stream().reduce(inverse, (memo, opposed) -> memo.transform(opposed));
-        applyOperation(transformed);
+        for (Operation opposed : sublist) {
+            inverse = inverse.transform(opposed);
+        }
+        applyOperation(inverse);
     }
 
     private void applyOperation(Operation op) {

@@ -18,9 +18,9 @@ import java.util.Scanner;
 
 public class TextEditor implements ActionListener {
     private static JTextArea textArea;
+    private Buffer buffer;
     private static int returnValue = 0;
 
-    private Buffer buffer;
 
     public TextEditor() {
         JMenuBar menu = new JMenuBar();

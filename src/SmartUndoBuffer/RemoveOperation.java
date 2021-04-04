@@ -28,9 +28,9 @@ public class RemoveOperation implements Operation {
 
     @Override
     public String apply(String target) {
-        String pre = target.substring(0, index);
-        String suf = target.substring(index + length);
-        chunk = target.substring(index, index + length);
+        String pre = target.substring(0, Math.min(index, target.length()));
+        String suf = target.substring(Math.min(index + length, target.length()));
+        chunk = target.substring(Math.max(0, index), Math.min(index + length, target.length()));
         return pre + suf;
     }
 
@@ -77,7 +77,7 @@ public class RemoveOperation implements Operation {
             int intersect = Math.max(0,
                                      length -
                                      Math.max(0, op.getIndex() - index) -
-                                     Math.max(0, index + length - op.getIndex() + op.getLength()));
+                                     Math.max(0, index + length - (op.getIndex() + op.getLength())));
             return new RemoveOperation(index - (op.getLength() - intersect), length - intersect);
         }
     }

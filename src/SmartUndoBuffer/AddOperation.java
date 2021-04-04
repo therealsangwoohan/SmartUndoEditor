@@ -26,8 +26,8 @@ public class AddOperation implements Operation {
 
     @Override
     public String apply(String target) {
-        String pre = target.substring(0, index);
-        String suf = target.substring(index);
+        String pre = target.substring(0, Math.min(index, target.length()));
+        String suf = target.substring(Math.min(index, target.length()));
         return pre + chunk + suf;
     }
 
